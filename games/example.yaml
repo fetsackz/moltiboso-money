@@ -1,0 +1,181 @@
+# Sample Game File. Copy it to games/<date>.yaml for a game night and edit away.
+# Media paths are relative to this games/ folder. Validate with: npm run check
+title: Moltiboso Money
+wagerFloor: 1000       # anyone may wager up to max(their score, this)
+countdownSeconds: 5    # answer Countdown, started by the Host with Space
+
+contestants:           # 2–6, in podium order (keys 1–6)
+  - { name: Alex, photo: media/alex.svg }
+  - { name: Sam }
+  - { name: Robin }
+  - { name: Kim }
+
+rounds:
+  - name: Round 1
+    values: [100, 200, 300, 400, 500]
+    categories:
+      - name: Swiss Things
+        questions:
+          - question: This mountain's pyramid shape is said to have inspired the Toblerone logo.
+            answer: The Matterhorn
+          - question: Switzerland's four national languages are German, French, Italian and this.
+            answer: Romansh
+          - question: Only two countries have a square national flag. This is one; name the other.
+            answer: Vatican City
+            image: media/flag-ch.svg
+          - question: This Swiss city is home to FIFA's headquarters.
+            answer: Zurich
+          - question: In 1990 a federal court forced this canton to become the last to let women vote on cantonal matters.
+            answer: Appenzell Innerrhoden
+      - name: Internet Culture
+        questions:
+          - question: This streamer hosted the original Mogul Money game show.
+            answer: Ludwig (Ahgren)
+          - question: Twitch has been owned by this tech giant since 2014.
+            answer: Amazon
+          - question: The very first YouTube video, uploaded in 2005, has this title.
+            answer: "Me at the zoo"
+          - question: In 2021 Ludwig set a Twitch subscriber record with this kind of stream that runs longer with every new sub.
+            answer: A subathon
+          - question: Rick Astley's 1987 hit that became the internet's favourite bait-and-switch.
+            answer: Never Gonna Give You Up
+      - name: Numbers
+        questions:
+          - question: The number of sides on a hexagon.
+            answer: "6"
+          - question: The number of bones in an adult human body.
+            answer: "206"
+          - question: The decimal number 10 written in binary.
+            answer: "1010"
+          - question: Pi to five decimal places.
+            answer: "3.14159"
+          - question: In the Fibonacci sequence, the number that comes after 13 and 21.
+            answer: "34"
+      - name: Food & Drink
+        questions:
+          - question: Fondue is mostly made of this, melted.
+            answer: Cheese
+          - question: Sushi rice is seasoned with this kind of vinegar.
+            answer: Rice vinegar
+          - question: The name of this Italian dessert means "pick me up".
+            answer: Tiramisù
+            bonus: true
+          - question: This spice is made from the dried stigmas of a crocus flower.
+            answer: Saffron
+          - question: Rösti started out as a farmers' breakfast in this Swiss canton.
+            answer: Bern
+      - name: Geography
+        questions:
+          - question: The longest river in Africa.
+            answer: The Nile
+          - question: The capital of Australia.
+            answer: Canberra
+          - question: The deepest lake in the world.
+            answer: Lake Baikal
+          - question: This country has more ancient pyramids than Egypt.
+            answer: Sudan
+          - question: The capital of Kazakhstan.
+            answer: Astana
+      - name: Music
+        questions:
+          - question: This instrument usually has 88 keys.
+            answer: The piano
+          - question: This Alpine singing style flips rapidly between chest voice and head voice.
+            answer: Yodelling
+          - question: Name the note being played, the standard tuning pitch.
+            answer: A (A4, 440 Hz)
+            audio: media/a440.wav
+          - question: He composed "Für Elise".
+            answer: Ludwig van Beethoven
+          - question: Queen's 1975 single that topped the UK chart for nine weeks.
+            answer: Bohemian Rhapsody
+
+  - name: Round 2
+    values: [200, 400, 600, 800, 1000]
+    categories:
+      - name: Tech
+        questions:
+          - question: This company makes the iPhone.
+            answer: Apple
+          - question: What the letters in HTTP stand for.
+            answer: HyperText Transfer Protocol
+          - question: This programming language is named after a British comedy group.
+            answer: Python
+          - question: The year the first iPhone was released.
+            answer: "2007"
+          - question: He created the Linux kernel.
+            answer: Linus Torvalds
+      - name: History
+        questions:
+          - question: The year the Berlin Wall fell.
+            answer: "1989"
+          - question: The first person to walk on the Moon.
+            answer: Neil Armstrong
+          - question: This ancient wonder stood on the island of Pharos.
+            answer: The Lighthouse of Alexandria
+          - question: The Swiss Confederation traditionally dates its founding Federal Charter to this year.
+            answer: "1291"
+            bonus: true
+          - question: The Hundred Years' War actually lasted this many years.
+            answer: "116 (1337–1453)"
+      - name: Movies
+        questions:
+          - question: The film in which Arnold Schwarzenegger first says "I'll be back".
+            answer: The Terminator
+          - question: He directed Jurassic Park.
+            answer: Steven Spielberg
+          - question: The first feature-length film made entirely with computer animation (1995).
+            answer: Toy Story
+          - question: The fictional African nation in Black Panther.
+            answer: Wakanda
+          - question: The first film to win the Academy Award for Best Picture.
+            answer: Wings
+      - name: Animals
+        questions:
+          - question: The largest animal known to have ever lived.
+            answer: The blue whale
+          - question: A group of crows is called this.
+            answer: A murder
+          - question: The number of hearts an octopus has.
+            answer: "3"
+          - question: The only mammal capable of true flight.
+            answer: The bat
+          - question: Scotland's national animal.
+            answer: The unicorn
+            bonus: true
+      - name: Sports
+        questions:
+          - question: This Swiss tennis player won 20 Grand Slam singles titles.
+            answer: Roger Federer
+          - question: The number of players each team has on the pitch in football.
+            answer: "11"
+          - question: The country with the most men's FIFA World Cup titles.
+            answer: Brazil
+          - question: The "Fosbury Flop" is a technique in this sport.
+            answer: High jump
+          - question: This Swiss resort hosted the Winter Olympics in both 1928 and 1948.
+            answer: St. Moritz
+      - name: Words
+        questions:
+          - question: The opposite of a synonym.
+            answer: Antonym
+          - question: A word that reads the same forwards and backwards.
+            answer: Palindrome
+          - question: The most common letter in English text.
+            answer: E
+          - question: The language with the most native speakers.
+            answer: Mandarin Chinese
+          - question: The fear of long words, itself a famously long word.
+            answer: Hippopotomonstrosesquippedaliophobia
+
+final:
+  category: Money, Money, Money
+  question: This currency code's letters come from the Latin name of the country plus the currency's name.
+  answer: CHF (Confoederatio Helvetica Franc)
+
+sounds:
+  # Override any built-in sound with a file: reveal, correct, wrong, bonus, tick,
+  # timeUp, think, drumroll, coins, win. Leave out to use the generated defaults.
+  soundboard:          # up to 5 Host-triggered sounds; unused slots are greyed out
+    - { label: Applause & cheers, file: media/sfx/applause.wav }
+    - { label: Air horn, file: media/sfx/airhorn.wav }
