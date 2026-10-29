@@ -2,6 +2,5 @@ node_modules
 dist
 .DS_Store
 
-# Personal sound files with unclear licenses: keep local, never publish
-games/media/sfx/air-horn-sound-effect.mp3
-games/media/sfx/kids-saying-yay-sound-effect.mp3
+# Your own games and media live in their own (private) git repo here; never publish them
+games/private/

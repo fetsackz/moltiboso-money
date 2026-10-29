@@ -56,6 +56,16 @@ npm run check games/2026-11-07.yaml   # just one
 
 Edits to questions apply immediately, even mid-game. Contestants are fixed at New game; latecomers join with **Add contestant**.
 
+Game files can also live in subfolders of `games/`. Media paths are relative to the game file, so a game in `games/friends/` uses `media/...` for its own files and `../media/...` for the shared ones.
+
+### Keeping your games private
+
+Your games will contain your friends' names, photos and inside jokes, so don't commit them to a public fork. `games/private/` is git-ignored for exactly this: make it its own (private) git repository and your games show up in the game picker as `private/...`:
+
+```sh
+git clone https://github.com/<you>/<your-private-games-repo>.git games/private
+```
+
 ## Sounds: please replace them
 
 The game ships with deliberately modest sounds so the repo stays free to share:
@@ -76,7 +86,7 @@ sounds:
 
 Built-in effects you can override: `reveal`, `correct`, `wrong`, `bonus`, `tick`, `timeUp`, `think`, `drumroll`, `coins`, `win`. Soundboard and question audio play from the Host Console; everything else plays from the Stage.
 
-If you plan to publish your fork, keep sounds you don't have the rights to out of git (see `.gitignore`).
+If you publish your fork, keep sounds you don't have the rights to out of it, e.g. in `games/private/`.
 
 ## How it's built
 

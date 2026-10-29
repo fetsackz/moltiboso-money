@@ -93,10 +93,12 @@ export interface Issue {
 export type ParseResult = { ok: true; game: GameFile; issues: Issue[] } | { ok: false; issues: Issue[] };
 
 /**
- * Parse and validate a Game File. `mediaExists` lets the caller (browser or CLI)
- * report media paths that point nowhere.
+ * Parse and validate a Game File. Media paths in the file are relative to the file's
+ * own folder, `baseDir` (relative to games/); the parsed game has them resolved to
+ * paths relative to games/. `mediaExists` gets those resolved paths, so the caller
+ * (browser or CLI) can report media that points nowhere.
  */
-export function parseGameFile(raw: string, mediaExists?: (path: string) => boolean): ParseResult {
+export function parseGameFile(raw: string, mediaExists?: (path: string) => boolean, baseDir = ""): ParseResult {
   let data: unknown;
   try {
     data = parseYaml(raw);
@@ -114,9 +116,40 @@ export function parseGameFile(raw: string, mediaExists?: (path: string) => boole
       })),
     };
   }
-  const game = result.data;
+  const game = resolveMedia(result.data, baseDir);
   const issues = checkGame(game, mediaExists);
   return issues.some((i) => i.severity === "error") ? { ok: false, issues } : { ok: true, game, issues };
+}
+
+/** Joins a media path onto the Game File's folder: "private" + "../media/a.png" → "media/a.png". */
+export function resolveMediaPath(baseDir: string, path: string): string {
+  const parts: string[] = [];
+  for (const part of `${baseDir}/${path}`.split("/")) {
+    if (part === "" || part === ".") continue;
+    if (part === ".." && parts.length && parts[parts.length - 1] !== "..") parts.pop();
+    else parts.push(part);
+  }
+  return parts.join("/");
+}
+
+function resolveMedia(game: GameFile, baseDir: string): GameFile {
+  const at = (path: string | undefined) => (path ? resolveMediaPath(baseDir, path) : path);
+  const sounds = Object.fromEntries(
+    Object.entries(game.sounds).map(([key, file]) => [key, typeof file === "string" ? at(file) : file]),
+  ) as GameFile["sounds"];
+  return {
+    ...game,
+    contestants: game.contestants.map((c) => ({ ...c, photo: at(c.photo) })),
+    rounds: game.rounds.map((r) => ({
+      ...r,
+      categories: r.categories.map((cat) => ({
+        ...cat,
+        questions: cat.questions.map((q) => ({ ...q, image: at(q.image), audio: at(q.audio) })),
+      })),
+    })),
+    final: { ...game.final, image: at(game.final.image), audio: at(game.final.audio) },
+    sounds: { ...sounds, soundboard: game.sounds.soundboard?.map((s) => ({ ...s, file: at(s.file)! })) },
+  };
 }
 
 function checkGame(game: GameFile, mediaExists?: (path: string) => boolean): Issue[] {

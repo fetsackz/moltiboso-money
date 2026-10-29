@@ -1,19 +1,19 @@
-// npm run check [games/file.yaml ...] — validate Game Files; all of games/ if none given.
+// npm run check [games/file.yaml ...] — validate Game Files; all of games/ (and its subfolders) if none given.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { parseGameFile } from "../src/gamefile/schema";
 
 const gamesDir = resolve(import.meta.dirname, "../games");
 const files = process.argv.slice(2).length
   ? process.argv.slice(2).map((f) => resolve(f))
-  : readdirSync(gamesDir)
-      .filter((f) => /\.ya?ml$/.test(f))
+  : readdirSync(gamesDir, { recursive: true, encoding: "utf8" })
+      .filter((f) => /\.ya?ml$/.test(f) && !f.split("/").some((part) => part.startsWith(".")))
       .map((f) => join(gamesDir, f));
 
 let failed = false;
 for (const file of files) {
-  const root = dirname(file);
-  const result = parseGameFile(readFileSync(file, "utf8"), (p) => existsSync(join(root, p)));
+  const baseDir = relative(gamesDir, dirname(file));
+  const result = parseGameFile(readFileSync(file, "utf8"), (p) => existsSync(join(gamesDir, p)), baseDir);
   const errors = result.issues.filter((i) => i.severity === "error");
   const warnings = result.issues.filter((i) => i.severity === "warning");
   console.log(`${result.ok ? "✔" : "✘"} ${file}`);

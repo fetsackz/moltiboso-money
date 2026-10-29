@@ -3,8 +3,9 @@ import { parseGameFile, type ParseResult } from "./schema";
 import * as initial from "./sources";
 
 export interface GameEntry {
-  /** File name without extension; also the key of its Save. */
+  /** Path under games/ without extension, e.g. "example" or "private/2026-11-07"; also the key of its Save. */
   id: string;
+  /** Path under games/, e.g. "private/2026-11-07.yaml". */
   fileName: string;
   result: ParseResult;
 }
@@ -16,11 +17,12 @@ const listeners = new Set<() => void>();
 function build(): GameEntry[] {
   return Object.entries(sources.yaml)
     .map(([path, raw]) => {
-      const fileName = path.split("/").pop()!;
+      const fileName = path.replace(/^\/games\//, "");
+      const baseDir = fileName.includes("/") ? fileName.slice(0, fileName.lastIndexOf("/")) : "";
       return {
         id: fileName.replace(/\.ya?ml$/, ""),
         fileName,
-        result: parseGameFile(raw, (p) => `/games/${p}` in sources.media),
+        result: parseGameFile(raw, (p) => `/games/${p}` in sources.media, baseDir),
       };
     })
     .sort((a, b) => a.fileName.localeCompare(b.fileName));
