@@ -5,7 +5,8 @@ import type { GameFile } from "../gamefile/schema";
 import { formatPoints } from "../format";
 import { Avatar, CountdownRing } from "./Podiums";
 
-export type Flash = { kind: "correct" | "wrong"; id: number } | null;
+/** A judged answer's flash, tied to the scene it happened in so it never replays on the next one. */
+export type Flash = { kind: "correct" | "wrong"; id: number; scene: string } | null;
 
 /** Font size that keeps long questions on the card. */
 export const questionSize = (text: string, hasMedia: boolean) => {

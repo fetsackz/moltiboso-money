@@ -86,7 +86,13 @@ export function Stage() {
         <div className="velvet" />
         <div className="scene" key={scene}>
           {state && game ? (
-            <Scene view={view} game={game} flash={flash} audioPlaying={audioPlaying} countdown={countdown} />
+            <Scene
+              view={view}
+              game={game}
+              flash={flash?.scene === scene ? flash : null}
+              audioPlaying={audioPlaying}
+              countdown={countdown}
+            />
           ) : (
             <Title title={game?.title ?? "Moltiboso Money"} contestants={[]} />
           )}
@@ -231,7 +237,7 @@ function useTransitionEffects(
         const at = podiumCenter(c.id);
         if (at) particles.current?.coins(at.x, at.y, 45);
       }
-      setFlash({ kind: gained ? "correct" : "wrong", id: Date.now() });
+      setFlash({ kind: gained ? "correct" : "wrong", id: Date.now(), scene: sceneKey(state) });
     }
 
     if (p.kind === "intro" || (p.kind === "board" && pp.kind !== "board" && pp.kind !== "question")) {
